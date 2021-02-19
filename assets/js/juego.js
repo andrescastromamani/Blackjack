@@ -10,6 +10,7 @@ let puntosJugador = 0,
 //Referencias
 
 const btnPedir = document.querySelector('#btnPedir');
+const cartasJugador = document.querySelector('#jugador-cartas');
 const puntaje = document.querySelectorAll('small');
 //Crear la Baraja de cartas
 const crearDecks = () =>{
@@ -50,7 +51,20 @@ const valorCarta = ( carta ) =>{
 
 //Eventos
 btnPedir.addEventListener('click', ()=>{
-    let carta = obtenerCarta();
+    const carta = obtenerCarta();
     puntosJugador = puntosJugador + valorCarta(carta);
     puntaje[0].innerText = puntosJugador;
+
+    const imgCarta = document.createElement('img');
+    imgCarta.classList.add('cartas');
+    imgCarta.src = `assets/cartas/${carta}.png`;
+    cartasJugador.append(imgCarta);
+
+    if (puntosJugador > 21) {
+        console.warn('Perdiste!!');
+        btnPedir.disabled = true;
+    }else if (puntosJugador === 21) {
+        console.warn('21, Genial');
+        btnPedir.disabled = true;
+    }
 });
