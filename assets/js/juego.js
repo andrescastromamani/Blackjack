@@ -10,9 +10,19 @@ let puntosJugador = 0,
 //Referencias
 const btnPedir = document.querySelector('#btnPedir');
 const btnDetener = document.querySelector('#btnDetener');
+const btnNuevo = document.querySelector('#btnNuevo');
+
 const cartasJugador = document.querySelector('#jugador-cartas');
 const cartasComputadora = document.querySelector('#computadora-cartas');
 const puntaje = document.querySelectorAll('small');
+
+//Inicializar Juego
+const inicializarJuego = ()=>{
+    puntosJugador = 0;
+    puntosComputadora = 0;
+    btnPedir.disabled = false;
+    btnDetener.disabled = false;
+}
 
 //Crear la Baraja de cartas
 const crearDecks = () => {
@@ -51,6 +61,23 @@ const valorCarta = (carta) => {
         : valor * 1;
 }
 
+//Determinar Ganador
+const determinarGanador = () => {
+
+    setTimeout(() => {
+        if( puntosComputadora === puntosJugador ) {
+            alert('Nadie gana :(');
+        } else if ( puntosJugador > 21 ) {
+            alert('Computadora gana')
+        } else if( puntosComputadora > 21 ) {
+            alert('Jugador Gana');
+        } else {
+            alert('Computadora Gana')
+        }
+    }, 100 );
+
+}
+
 //Turno de Compuradora
 const turnoComputadora = (puntosMinimos) => {
     do {
@@ -66,8 +93,13 @@ const turnoComputadora = (puntosMinimos) => {
             break;
         }
     } while ((puntosComputadora < puntosMinimos) && (puntosMinimos <= 21));
+    determinarGanador();
 }
+
 //Eventos
+btnNuevo.addEventListener('click',()=>{
+    inicializarJuego();
+});
 btnPedir.addEventListener('click', () => {
     const carta = obtenerCarta();
     puntosJugador = puntosJugador + valorCarta(carta);
