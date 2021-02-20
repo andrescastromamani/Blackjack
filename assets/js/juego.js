@@ -1,26 +1,32 @@
 (() => {
     'use strict'
     let deck = [];
-    const tipos = ['C', 'D', 'H', 'S'];
-    const especiales = ['A', 'J', 'Q', 'K'];
+    const tipos = ['C', 'D', 'H', 'S'],
+          especiales = ['A', 'J', 'Q', 'K'];
     
-    //
-    let puntosJugador = 0,
-        puntosComputadora = 0;
+    let puntosJugadores = [];
     
     //Referencias
-    const btnPedir = document.querySelector('#btnPedir');
-    const btnDetener = document.querySelector('#btnDetener');
-    const btnNuevo = document.querySelector('#btnNuevo');
+    const btnPedir = document.querySelector('#btnPedir'),
+          btnDetener = document.querySelector('#btnDetener'),
+          btnNuevo = document.querySelector('#btnNuevo');
     
-    const cartasJugador = document.querySelector('#jugador-cartas');
-    const cartasComputadora = document.querySelector('#computadora-cartas');
-    const puntaje = document.querySelectorAll('small');
-    
-    //Inicializar Juego
-    
+    const cartasJugador = document.querySelector('#jugador-cartas'),
+          cartasComputadora = document.querySelector('#computadora-cartas'),
+          puntaje = document.querySelectorAll('small');
+
+    //Inicializar el Juego
+    const inicializarJuego = (numJugadores = 2) => {
+        deck = crearDecks();
+        for (let i = 0; i < numJugadores; i++) {
+            puntosJugadores.push(0);            
+        }
+        console.log({puntosJugadores});
+    }
+
     //Crear la Baraja de cartas
     const crearDecks = () => {
+        deck = [];
         for (let i = 2; i <= 10; i++) {
             for (let tipo of tipos) {
                 deck.push(i + tipo);
@@ -30,22 +36,18 @@
             for (let esp of especiales) {
                 deck.push(esp + tipo);
             }
-        }
-        deck = _.shuffle(deck);
-        return deck;
+        } 
+        return _.shuffle(deck);
     }
-    crearDecks();
     
     //extraer la carta de la Baraja
     const obtenerCarta = () => {
         if (deck.length === 0) {
             throw 'No hay mas Cartas';
         }
-        const carta = deck.pop();
-        return carta;
+        return deck.pop();
     }
-    obtenerCarta();
-    
+
     //Valor de la carta 
     const valorCarta = (carta) => {
         const valor = carta.substring(0, carta.length - 1);
@@ -56,7 +58,6 @@
     
     //Determinar Ganador
     const determinarGanador = () => {
-    
         setTimeout(() => {
             if( puntosComputadora === puntosJugador ) {
                 alert('Nadie gana :(');
@@ -91,8 +92,10 @@
     
     //Eventos
     btnNuevo.addEventListener('click',()=>{
-        deck = [];
-        deck = crearDecks();
+        //deck = [];
+        //deck = crearDecks();
+
+        inicializarJuego();
 
         puntosJugador = 0;
         puntosComputadora = 0;
