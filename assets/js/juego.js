@@ -1,4 +1,4 @@
-(()=>{
+(() => {
     'use strict'
     let deck = [];
     const tipos = ['C', 'D', 'H', 'S'];
@@ -18,12 +18,6 @@
     const puntaje = document.querySelectorAll('small');
     
     //Inicializar Juego
-    const inicializarJuego = ()=>{
-        puntosJugador = 0;
-        puntosComputadora = 0;
-        btnPedir.disabled = false;
-        btnDetener.disabled = false;
-    }
     
     //Crear la Baraja de cartas
     const crearDecks = () => {
@@ -48,8 +42,6 @@
             throw 'No hay mas Cartas';
         }
         const carta = deck.pop();
-        console.log(deck);
-        console.log(carta);
         return carta;
     }
     obtenerCarta();
@@ -99,8 +91,22 @@
     
     //Eventos
     btnNuevo.addEventListener('click',()=>{
-        inicializarJuego();
+        deck = [];
+        deck = crearDecks();
+
+        puntosJugador = 0;
+        puntosComputadora = 0;
+
+        puntaje[0].innerText = 0;
+        puntaje[1].innerText = 0;
+
+        cartasComputadora.innerHTML = '';
+        cartasJugador.innerHTML = '';
+
+        btnPedir.disabled = false;
+        btnDetener.disabled = false;
     });
+
     btnPedir.addEventListener('click', () => {
         const carta = obtenerCarta();
         puntosJugador = puntosJugador + valorCarta(carta);
